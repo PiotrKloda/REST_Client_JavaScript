@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Warsztaty 4</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+
+<header>
+    <h2>Welcome in Library Web Service</h2>
+</header>
+
+<body>
+
+    <div class="panel">
+        <div class="panel-body">
+            <form class="form-group" action="" method="post">
+                <p>
+                    Insert new book:
+                </p>
+                <label>Title: </label> <br/>
+                <input type="text" id="title"/><br/>
+                <label>Author: </label> <br/>
+                <input type="text" id="author"/> <br />
+                <label>Type: </label><br/>
+                <input type="text" id="type"/> <br />
+                <label>Publisher: </label><br/>
+                <input type="text" id="publisher"/> <br />
+                <label>isbn: </label><br/>
+                <input type="number" id="isbn"/> <br />
+                <br>
+                <p>
+                    <button class="btn btn-primary" id="btn">Submit</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <h3>Books list:</h3>
+
+    <div id="books_list">
+    </div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/app.js" type="text/javascript"></script>
+
+</html>
