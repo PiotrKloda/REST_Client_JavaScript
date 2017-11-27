@@ -1,4 +1,3 @@
-//GETBooks
 var GETBooks = function() {
     $.ajax({
         url: "http://localhost:8282/books/",
@@ -6,12 +5,8 @@ var GETBooks = function() {
         type: "GET",
         dataType: "json"
     }).done(function(books) {
-        //2. przerob na JS
-        // var booksFromJsonString= books;
-        // var booksParsed = JSON.parse(booksFromJsonString); ODRAZU SA zparsowane !
-        var booksFromJSON = books; //import z Json
-        //dynamiczne tworzenie listy ksiazek
-        var bookListQuery = document.querySelector("#books_list"); // dostaje tablice obiektow !!!
+        var booksFromJSON = books;
+        var bookListQuery = document.querySelector("#books_list");
         var counter = 1;
         booksFromJSON.forEach(function(eachBook) {
             var newBookP = document.createElement("p");
@@ -19,7 +14,6 @@ var GETBooks = function() {
             newBookP.innerHTML = counter + " :   " + eachBook.title + " " +
                 '<button class="expBtn btn-success btn-xs" data-BookId="' + eachBook.id + '">Expand <span class="glyphicon glyphicon-arrow-down"></span></button>' + " " +
                 '<button class="delBtn btn-danger btn-xs" data-BookId="' + eachBook.id + '">Delete <span class="glyphicon glyphicon-trash"></span></button>';
-
             newBookDiv.innerHTML =
                 '<form id="' + eachBook.id + '"> ' +
                 ' <div>Title: ' + eachBook.title + " ------- " + '  <input type="text" id="title" value="' + eachBook.title + '"/><br/> </div> ' +
@@ -32,7 +26,6 @@ var GETBooks = function() {
                 '<br/>' +
                 '</form>';
             newBookDiv.style.display = "none";
-
             bookListQuery.appendChild(newBookP);
             bookListQuery.appendChild(newBookDiv);
             counter++;
@@ -41,8 +34,6 @@ var GETBooks = function() {
 }
 GETBooks();
 
-
-// EXPANDING IN JQUERY
 var expandButtons = $(".expBtn");
 var grandParent = $("#books_list");
 grandParent.on("click", ".expBtn", function(event) {
@@ -53,32 +44,24 @@ grandParent.on("click", ".expBtn", function(event) {
     }
 });
 
-
-//DELETE books
 var grandParent = $("#books_list");
 grandParent.on("click", ".delBtn", function(event) {
-    // console.log(event.target.getAttribute("data-BookId"));
     var idToDel = event.target.getAttribute("data-BookId");
     $.ajax({
         url: "http://localhost:8282/books/remove/" + idToDel,
         type: "DELETE",
     }).done(function() {
         console.log("success DELETE");
-        window.location.reload(false); //odswieza strone !
+        window.location.reload(false);
     }).fail(function() {
         console.log("fail DELETE");
     });
 });
 
-//EDIT books
 var grandParent = $("#books_list");
 grandParent.on("click", ".editSubmitBtn", function(event) {
     event.preventDefault();
-    // console.log(event.target.getAttribute("data-BookId"));
-    // console.log( event.target.parentElement.querySelector("#title").value );
-
     var updatedBook = {
-        //id: event.target.getAttribute("data-BookId"),
         title: event.target.parentElement.querySelector("#title").value,
         author: event.target.parentElement.querySelector("#author").value,
         type: event.target.parentElement.querySelector("#type").value,
@@ -86,7 +69,6 @@ grandParent.on("click", ".editSubmitBtn", function(event) {
         isbn: event.target.parentElement.querySelector("#isbn").value
     }
     updatedBook = JSON.stringify(updatedBook);
-
     console.log(updatedBook);
     $.ajax({
         url: "http://localhost:8282/books/"+event.target.getAttribute("data-BookId")+"/update",
@@ -97,20 +79,12 @@ grandParent.on("click", ".editSubmitBtn", function(event) {
     }).done(function() {
         console.log("success");
     }).fail(function() {
-        console.log("fail"); // czemu wysietla fail ??
+        console.log("fail");
     });
-
-
 });
 
-
-//AddBook
 var button = document.querySelector("#btn");
 button.addEventListener("click", function(event) {
-    // event.preventDefault();
-    //data gathered from FORM
-    // var form = document.querySelector("form"); // alt
-    // var title = form.elements.email.value;
     var objectBook = {
         title: document.querySelector("input#title").value,
         author: document.querySelector("input#author").value,
@@ -118,8 +92,7 @@ button.addEventListener("click", function(event) {
         publisher: document.querySelector("input#publisher").value,
         isbn: document.querySelector("input#isbn").value,
     }
-    objectBook = JSON.stringify(objectBook); //dodaje nawiasy !!
-
+    objectBook = JSON.stringify(objectBook);
     $.ajax({
         url: "http://localhost:8282/books/add",
         data: objectBook,
@@ -130,17 +103,7 @@ button.addEventListener("click", function(event) {
         console.log("success");
         GETBooks();
     }).fail(function() {
-        console.log("fail"); // czemu wysietla fail ??
+        console.log("fail");
         GETBooks();
     });
 });
-
-
-// $.get({
-//     url: "https://swapi.co/api/people/4/"
-// }).done(function(data) {
-//     console.log(data);
-//     $(data.films).each(function(i, el) {
-//         console.log(el);
-//     });
-// });
